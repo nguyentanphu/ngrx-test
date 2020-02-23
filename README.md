@@ -1,0 +1,1 @@
+Testing ngrx. State management for angular
