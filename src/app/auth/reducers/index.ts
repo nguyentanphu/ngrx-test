@@ -8,11 +8,11 @@ import {
   on
 } from '@ngrx/store';
 import { User } from '../model/user.model';
-import { ActionTypes } from '../action-types';
+import { AuthActions } from '../action-types';
 
 export const initAuthState: AuthState = {
   user: undefined
-}
+};
 
 export interface AuthState {
   user: User;
@@ -20,11 +20,10 @@ export interface AuthState {
 
 export const authReducer = createReducer(
   initAuthState,
-  on(ActionTypes.login, (state, action) => ({
+  on(AuthActions.login, (state, action) => ({
     user: action.user
   })),
-  on(ActionTypes.logout, (state, action) => ({
+  on(AuthActions.logout, (state, action) => ({
     user: undefined
   }))
 );
-
