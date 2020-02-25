@@ -11,6 +11,7 @@ import { Course } from './model/course';
 @Injectable()
 export class CourseEffects {
   private readonly loadCourses$: Observable<{ courses: Course[] }>;
+  private readonly saveCourse$: Observable<any>;
   constructor(private action$: Actions, private courseHttpService: CoursesHttpService) {
     this.loadCourses$ = createEffect(
       () => this.action$
@@ -19,6 +20,14 @@ export class CourseEffects {
           concatMap(action => this.courseHttpService.findAllCourses()),
           map(courses => allCoursesLoaded({ courses: courses }))
         )
+    );
+
+    this.saveCourse$ = createEffect(
+      () => this.action$.pipe(
+        ofType(CourseActions.courseUpdated),
+        concatMap(action => this.courseHttpService.saveCourse(action.update.id, action.update.changes))
+      ),
+      {dispatch: false}
     );
   }
 
